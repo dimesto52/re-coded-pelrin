@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class pelrinMap
 {
-    public static Texture2D getpelrinMap(int height, int width, int slices, int octaves)
+    public static Texture2D getpelrinMap(int height, int width, int slices, int octaves,int seed, Vector2 pos)
     {
         Texture2D tx = new Texture2D(height, width);
 
@@ -19,7 +19,7 @@ public class pelrinMap
         {
             int slices2 = (int)(slices*(Mathf.Pow(2.0f,i)));
 
-            float[] slicesArray = getpelrinSlices(slices2);
+            float[] slicesArray = getpelrinSlices(slices2, seed,pos);
             float[] octaveArray = getpelrinOctave(height, width, slices2, slicesArray);
 
 
@@ -33,12 +33,13 @@ public class pelrinMap
                 tx.SetPixel(x, y, new Color(c, c, c));
             }
 
+        tx.filterMode = FilterMode.Point;
         tx.Apply();
 
         return tx;
     }
 
-    public static float[] getpelrinSlices(int slices)
+    public static float[] getpelrinSlices(int slices, int seed, Vector2 pos)
     {
         int dividBy = slices + 1;
 
@@ -46,6 +47,12 @@ public class pelrinMap
         for (int x = 0; x < dividBy; x++)
             for (int y = 0; y < dividBy; y++)
             {
+                float sqrtMaxInr = Mathf.Sqrt(int.MaxValue);
+                int posSeed = ((int)(((x+pos.x* slices) % sqrtMaxInr-1) + ((y + pos.y* slices) % sqrtMaxInr - 1) * sqrtMaxInr));
+                //Debug.Log((seed | posSeed).ToString());
+                Random.InitState(seed | posSeed);
+
+
                 slicesArray[x + y * dividBy] = Random.Range(0, 1.0f);
             }
 
