@@ -18,6 +18,7 @@ public class pelrinMap
             }
 
         tx.filterMode = FilterMode.Point;
+        
         tx.Apply();
 
         return tx;

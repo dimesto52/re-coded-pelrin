@@ -13,9 +13,11 @@ public class renderPelrin : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Texture2D tx = pelrinMap.getpelrinMap(64,64, slices, octaves, seed,pos);
+        int size = 256;
 
-        Sprite sp = Sprite.Create(tx,new Rect(0,0,64f,64f),Vector2.one/2.0f);
+        Texture2D tx = pelrinMap.getpelrinMap(size, size, slices, octaves, seed,pos);
+
+        Sprite sp = Sprite.Create(tx,new Rect(0,0, size, size),Vector2.one/2.0f,size);
 
         this.GetComponent<SpriteRenderer>().sprite = sp;
 
